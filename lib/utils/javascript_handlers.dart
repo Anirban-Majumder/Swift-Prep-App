@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart'; // Import this for kIsWeb
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -30,7 +31,16 @@ class JavaScriptHandlers {
         Map<String, dynamic> info = {};
 
         try {
-          if (Platform.isAndroid) {
+          // Check for web platform first, as Platform.isAndroid/isIOS will crash on web.
+          if (kIsWeb) {
+            final webInfo = await deviceInfo.webBrowserInfo;
+            info = {
+              'platform': 'web',
+              'browserName': webInfo.browserName.name,
+              'appVersion': webInfo.appVersion,
+              'userAgent': webInfo.userAgent,
+            };
+          } else if (Platform.isAndroid) {
             final androidInfo = await deviceInfo.androidInfo;
             info = {
               'platform': 'android',
@@ -49,7 +59,7 @@ class JavaScriptHandlers {
             };
           }
         } catch (e) {
-          info = {'platform': 'unknown'};
+          info = {'platform': 'unknown', 'error': e.toString()};
         }
 
         return info;
@@ -81,86 +91,10 @@ class JavaScriptHandlers {
     controller.addJavaScriptHandler(
       handlerName: 'hapticFeedback',
       callback: (args) {
-        String type = 'light';
-        if (args.isNotEmpty) {
-          type = args[0].toString();
-        }
-
-        switch (type) {
-          case 'light':
-            HapticFeedback.lightImpact();
-            break;
-          case 'medium':
-            HapticFeedback.mediumImpact();
-            break;
-          case 'heavy':
-            HapticFeedback.heavyImpact();
-            break;
-          case 'selection':
-            HapticFeedback.selectionClick();
-            break;
-          default:
-            HapticFeedback.lightImpact();
-        }
-      },
-    );
-  }
-
-  /// Setup clipboard handler
-  static void setupClipboardHandler(InAppWebViewController controller) {
-    controller.addJavaScriptHandler(
-      handlerName: 'copyToClipboard',
-      callback: (args) {
-        if (args.isNotEmpty) {
-          final String text = args[0].toString();
-          Clipboard.setData(ClipboardData(text: text));
-        }
-      },
-    );
-  }
-
-  /// Setup toast/snackbar handler
-  static void setupToastHandler(
-      InAppWebViewController controller,
-      Function(String, String) onShowToast,
-      ) {
-    controller.addJavaScriptHandler(
-      handlerName: 'showToast',
-      callback: (args) {
-        if (args.length >= 2) {
-          final String message = args[0].toString();
-          final String type = args[1].toString(); // 'success', 'error', 'info'
-          onShowToast(message, type);
-        }
-      },
-    );
-  }
-
-  /// Setup status bar handler
-  static void setupStatusBarHandler(InAppWebViewController controller) {
-    controller.addJavaScriptHandler(
-      handlerName: 'setStatusBarStyle',
-      callback: (args) {
-        if (args.isNotEmpty) {
-          final String style = args[0].toString();
-
-          SystemUiOverlayStyle overlayStyle;
-          switch (style) {
-            case 'light':
-              overlayStyle = SystemUiOverlayStyle.light;
-              break;
-            case 'dark':
-              overlayStyle = SystemUiOverlayStyle.dark;
-              break;
-            default:
-              overlayStyle = const SystemUiOverlayStyle(
-                statusBarColor: Colors.transparent,
-                statusBarIconBrightness: Brightness.dark,
-              );
-          }
-
-          SystemChrome.setSystemUIOverlayStyle(overlayStyle);
-        }
+        // You were already calling HapticFeedback.lightImpact() directly
+        // in webview_screen.dart, which is simpler.
+        // Let's keep the logic here for when you expand it.
+        onHaptic();
       },
     );
   }

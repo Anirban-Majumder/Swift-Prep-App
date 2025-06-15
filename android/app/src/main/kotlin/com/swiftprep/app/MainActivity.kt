@@ -1,4 +1,4 @@
-package com.example.swift_prep_app
+package com.swiftprep.app
 
 import io.flutter.embedding.android.FlutterActivity
 

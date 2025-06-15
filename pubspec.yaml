@@ -16,6 +16,7 @@ dependencies:
   permission_handler: ^11.0.1
   flutter_native_splash: ^2.3.5
   flutter_launcher_icons: ^0.13.1
+  device_info_plus: ^9.1.2
 
 dev_dependencies:
   flutter_test:
@@ -25,22 +26,26 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/
+ #  - assets/images/
     - assets/icons/
 
 # Flutter Launcher Icons Configuration
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
+  # This path should now be correct after you moved/renamed your file
   image_path: "assets/icons/app_icon.png"
   min_sdk_android: 21
   adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "assets/icons/app_icon_foreground.png"
+  # This path should now be correct if you created the foreground file
+  #adaptive_icon_foreground: "assets/icons/app_icon_foreground.png"
 
 # Native Splash Screen Configuration
-flutter_native_splash:
-  color: "#ffffff"
-  image: "assets/images/splash_icon.png"
-  android_12:
-    image: "assets/images/splash_icon.png"
-    color: "#ffffff"
+# IMPORTANT: If you don't have splash_icon.png yet, this will cause an error.
+# For now, let's comment it out to get the app running.
+# flutter_native_splash:
+#   color: "#ffffff"
+#   image: "assets/images/splash_icon.png"
+#   android_12:
+#     image: "assets/images/splash_icon.png"
+#     color: "#ffffff" "#ffffff"

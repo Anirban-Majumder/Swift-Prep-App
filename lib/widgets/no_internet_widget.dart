@@ -31,9 +31,9 @@ class NoInternetWidget extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: onRetry,       // <-- This part was missing
-            child: const Text('Retry'), // <-- This part was missing
-          ),                         // <-- This part was missing
+            onPressed: onRetry,
+            child: const Text('Retry'),
+          ),
         ],
       ),
     );

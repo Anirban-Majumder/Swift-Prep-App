@@ -47,41 +47,38 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 
-	<!-- Network permissions -->
+	<!-- START MODIFICATION: NETWORK PERMISSIONS (Security Best Practice) -->
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<!-- This is changed to 'false' to enforce secure connections by default. -->
 		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<false/>
+		<!-- Exceptions are then added for specific domains. -->
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>swift-prep.xyz</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
-				<key>NSExceptionMinimumTLSVersion</key>
-				<string>TLSv1.0</string>
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
 		</dict>
 	</dict>
+	<!-- END MODIFICATION -->
 
 	<!-- Camera permission -->
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs access to camera for taking photos and scanning documents.</string>
-
 	<!-- Photo library permission -->
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs access to photo library to select and upload images.</string>
-
 	<!-- Location permission -->
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs location access to provide location-based services.</string>
-
 	<!-- Microphone permission -->
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app needs access to microphone for audio recording features.</string>
-
 	<!-- File access permission -->
 	<key>NSDocumentsFolderUsageDescription</key>
 	<string>This app needs access to documents folder to save and access files.</string>
